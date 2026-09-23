@@ -7,6 +7,7 @@ import QuickViewModal from './components/QuickViewModal';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import { Product, GrainType, OrderItem, UserProfile } from './types';
+import { fallbackProducts } from './data/products';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Leaf, ShieldCheck, Zap, CheckCircle2 } from 'lucide-react';
 import { db, auth } from './lib/firebase';
@@ -16,7 +17,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import TypingEffect from './components/TypingEffect';
 
 export default function App() {
-  const [localProducts, setLocalProducts] = useState<Product[]>([]);
+  const [localProducts, setLocalProducts] = useState<Product[]>(fallbackProducts);
   const [firestoreProducts, setFirestoreProducts] = useState<Product[]>([]);
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState<OrderItem[]>([]);
@@ -88,9 +89,13 @@ export default function App() {
     fetch('/api/products')
       .then(res => res.json())
       .then(data => {
-        setLocalProducts(data);
+        if (Array.isArray(data) && data.length > 0) setLocalProducts(data);
+        setLoading(false);
       })
-      .catch(err => console.error("Failed to fetch local products:", err));
+      .catch(err => {
+        console.error("Failed to fetch local products; using the public fallback catalogue:", err);
+        setLoading(false);
+      });
 
     // Real-time Firestore products
     const q = query(collection(db, 'products'), orderBy('createdAt', 'desc'));
