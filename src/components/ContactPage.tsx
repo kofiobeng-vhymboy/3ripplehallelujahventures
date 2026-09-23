@@ -80,7 +80,10 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Visit Us</p>
-                    <p className="text-xl font-medium text-slate-800 dark:text-slate-200">Suite 102, Innovation Plaza, Accra</p>
+                    <p className="text-lg font-medium leading-relaxed text-slate-800 dark:text-slate-200">
+                      Amrahia-Newtown, off Adenta–Dodowa Road
+                      <span className="block text-sm font-semibold text-slate-500 dark:text-slate-400 mt-1">GPS Address: GD-227-5164</span>
+                    </p>
                   </div>
                 </div>
               </div>
