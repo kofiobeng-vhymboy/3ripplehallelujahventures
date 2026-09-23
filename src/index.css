@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Brand Colors */
+  --color-brand-mint: #5DF8D8;
+  --color-brand-blue: #008BFF;
+  --color-brand-white: #FFFFFF;
+  
+  /* Semantic Mappings */
+  --color-primary: var(--color-brand-mint);
+  --color-accent: var(--color-brand-blue);
+  --color-base: var(--color-brand-white);
+
+  /* Dark Mode Overrides */
+  --color-dark-bg: #0f172a;
+  --color-dark-card: #1e293b;
+  --color-dark-border: #334155;
+  --color-dark-text: #f8fafc;
+  --color-dark-text-muted: #94a3b8;
+}
+
+@layer base {
+  body {
+    @apply bg-white text-slate-900 font-sans antialiased transition-colors duration-500;
+  }
+
+  html {
+    @apply bg-white transition-colors duration-500;
+  }
+
+  input, textarea, select {
+    @apply text-slate-900 placeholder:text-slate-400;
+  }
+
+  html.dark {
+    @apply bg-[#0f172a];
+  }
+
+  .dark input, .dark textarea, .dark select {
+    @apply bg-[#1e293b] text-slate-100 placeholder:text-slate-500 border-slate-700;
+  }
+  
+  .dark body {
+    @apply bg-[#0f172a] text-[#f8fafc];
+  }
+
+  .dark {
+    color-scheme: dark;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight font-bold text-slate-900 dark:text-slate-100 transition-colors;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-[var(--color-brand-blue)] text-white font-medium rounded-lg hover:bg-blue-600 transition-all active:scale-95 flex items-center justify-center gap-2 shadow-sm;
+  }
+  
+  .btn-outline {
+    @apply px-6 py-3 border border-slate-200 text-slate-600 font-medium rounded-lg hover:bg-slate-50 transition-all active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  .dark .btn-outline {
+    @apply border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-slate-100;
+  }
+
+  .card-premium {
+    @apply bg-white border border-slate-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300;
+  }
+
+  .dark .card-premium {
+    @apply bg-[#1e293b] border-[#334155] shadow-none;
+  }
+
+  .badge-mint {
+    @apply px-3 py-1 bg-[var(--color-brand-mint)] text-slate-800 text-xs font-bold uppercase tracking-wider rounded-full;
+  }
+}

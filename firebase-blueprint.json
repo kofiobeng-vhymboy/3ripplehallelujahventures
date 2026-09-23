@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A cereal mix product available for purchase",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "The name of the product" },
+        "description": { "type": "string", "description": "A detailed description of the mix" },
+        "price": { "type": "number", "description": "Unit price in GHS" },
+        "weight": { "type": "string", "description": "Weight of the package (e.g. 500g)" },
+        "stock": { "type": "integer", "description": "Current inventory count" },
+        "grainType": { "type": "string", "description": "The classification of the cereal mix" },
+        "image": { "type": "string", "format": "uri", "description": "URL to the product image" },
+        "isPopular": { "type": "boolean", "description": "Feature on homepage" },
+        "ingredients": { "type": "array", "items": { "type": "string" }, "description": "List of active ingredients" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "price", "grainType", "image", "stock"]
+    },
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Public and private information about a registered customer",
+      "type": "object",
+      "properties": {
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "wishlist": { "type": "array", "items": { "type": "string" }, "description": "List of product IDs in the wishlist" },
+        "savedAddresses": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Marker entity for users with administrative privileges",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "editor"] }
+      }
+    },
+    "Order": {
+      "title": "Order",
+      "description": "A customer order records",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "items": { "type": "array" },
+        "total": { "type": "number" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "SupportMessage": {
+      "title": "Support Message",
+      "description": "A message sent via the contact form",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "message"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Store for cereal mix products"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer order history"
+    },
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User account data"
+    },
+    "/admins/{userId}": {
+      "schema": "Admin",
+      "description": "Lists authorized administrators"
+    },
+    "/messages/{messageId}": {
+      "schema": "SupportMessage",
+      "description": "Inbound customer support requests"
+    }
+  }
+}

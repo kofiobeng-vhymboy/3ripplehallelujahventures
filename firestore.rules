@@ -1,0 +1,93 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) ||
+        request.auth.token.email == 'kofiobeng2006@gmail.com'
+      );
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Validation for Product
+    function isValidProduct(data) {
+      return data.keys().hasAll(['name', 'price', 'grainType', 'image']) &&
+             data.name is string && data.name.size() <= 200 &&
+             data.price is number && data.price >= 0 &&
+             data.grainType is string &&
+             data.image is string && data.image.size() <= 2000 &&
+             (data.get('stock', 0) is int) &&
+             (data.get('description', '') is string) &&
+             (data.get('weight', '') is string) &&
+             (data.get('ingredients', []) is list) &&
+             (data.get('isPopular', false) is bool);
+    }
+
+    // Product Rules
+    match /products/{productId} {
+      allow get, list: if true;
+      allow create: if isAdmin() && isValidProduct(request.resource.data);
+      allow update: if isAdmin() && isValidProduct(request.resource.data) &&
+                      request.resource.data.diff(resource.data).affectedKeys().hasAny(['name', 'description', 'price', 'weight', 'stock', 'grainType', 'image', 'isPopular', 'ingredients', 'updatedAt']);
+      allow delete: if isAdmin();
+    }
+
+    // Order Rules
+    match /orders/{orderId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && request.resource.data.userId == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if false;
+    }
+
+    // User Rules
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create, update: if isOwner(userId) && isEmailVerified();
+    }
+
+    // Admin Rules
+    match /admins/{userId} {
+      allow get: if isSignedIn(); // Allow anyone signed in to check if they are admin
+      allow list, write: if false; // Admins managed manually or via cloud function
+    }
+
+    // Support Message Rules
+    function isValidSupportMessage(data) {
+      return data.keys().hasAll(['name', 'email', 'message', 'createdAt']) &&
+             data.name is string && data.name.size() <= 200 &&
+             data.email is string && data.email.size() <= 200 &&
+             data.message is string && data.message.size() <= 5000 &&
+             data.createdAt == request.time;
+    }
+
+    match /messages/{messageId} {
+      allow create: if isValidSupportMessage(request.resource.data);
+      allow get, list: if isAdmin();
+      allow update, delete: if false;
+    }
+  }
+}
