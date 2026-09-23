@@ -46,4 +46,4 @@ The application will be running at `http://localhost:3000`.
 - **Prettier**: For consistent code formatting.
 
 ## Notes on WhatsApp Integration
-The checkout sends messages to `233242148022`. You can update this number in `src/components/CartDrawer.tsx` if needed.
+The checkout sends messages to a number using a whatsapp api. You can update this number in `src/components/CartDrawer.tsx` if needed.
