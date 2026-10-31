@@ -36,7 +36,7 @@ export default function ProductsPage({ searchQuery, onSearch, ...gridProps }: Pr
         <header className="mb-8 sm:mb-10">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[var(--color-brand-blue)]">The 3Ripple collection</p>
           <h1 className="mb-3 text-4xl text-slate-800 dark:text-slate-100 sm:text-5xl">Our Products</h1>
-          <p className="max-w-2xl leading-relaxed text-slate-600 dark:text-slate-300">Explore our Tombrown blends and cassava essentials, available in 1kg and 2kg. Add your favourites to an enquiry and ask us about current prices on WhatsApp.</p>
+          <p className="max-w-2xl leading-relaxed text-slate-600 dark:text-slate-300">Explore our Tombrown blends in 600g, 800g and 1.2kg, and our cassava essentials in 1kg and 2kg. Add your favourites to an enquiry and ask us about current prices on WhatsApp.</p>
         </header>
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="relative w-full sm:max-w-md">

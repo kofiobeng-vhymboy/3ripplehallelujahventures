@@ -2,6 +2,7 @@ import React from 'react';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Product } from '../types';
+import { getProductSizes } from '../data/products';
 
 interface ProductCardProps {
   product: Product;
@@ -11,6 +12,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, onAddToCart, onQuickView }: ProductCardProps) {
+  const sizes = getProductSizes(product.grainType);
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -60,8 +62,8 @@ export default function ProductCard({ product, onAddToCart, onQuickView }: Produ
       <div className="mt-auto pt-6">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-4 dark:border-slate-700">
           <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Available sizes</span>
-          <div className="flex items-center gap-2" aria-label="Available in 1kg and 2kg">
-            {['1kg', '2kg'].map(size => (
+          <div className="flex flex-wrap items-center gap-2" aria-label={`Available in ${sizes.join(', ')}`}>
+            {sizes.map(size => (
               <span key={size} className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200">{size}</span>
             ))}
           </div>
