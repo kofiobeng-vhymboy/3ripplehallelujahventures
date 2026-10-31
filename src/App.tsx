@@ -387,8 +387,8 @@ export default function App() {
                       className="relative"
                     >
                       <img 
-                        src="/assets/logo.png"
-                        alt="3Ripple Hallelujah Ventures"
+                        src="/assets/rice-tombrown.jpg"
+                        alt="3Ripple Rice Tombrown"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.src = "/assets/logo.png";
