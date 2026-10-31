@@ -1,5 +1,11 @@
 import { GrainType, Product } from '../types';
 
+export function getProductSizes(grainType: GrainType): string[] {
+  return [GrainType.GLUTEN_FREE, GrainType.RICE_COMBO, GrainType.MAIZE_COMBO].includes(grainType)
+    ? ['600g', '800g', '1.2kg']
+    : ['1kg', '2kg'];
+}
+
 const productImages: Partial<Record<GrainType, string>> = {
   [GrainType.GLUTEN_FREE]: '/assets/oats-tombrown.jpg',
   [GrainType.RICE_COMBO]: '/assets/rice-tombrown.jpg',
@@ -18,7 +24,7 @@ export const fallbackProducts: Product[] = [
     name: 'Oats Tombrown (gluten free)',
     description: 'A delicious blend of grains, nuts, and seeds for nourishing everyday breakfasts.',
     price: 15,
-    weight: '1kg & 2kg',
+    weight: getProductSizes(GrainType.GLUTEN_FREE).join(', '),
     stock: 120,
     grainType: GrainType.GLUTEN_FREE,
     image: productImages[GrainType.GLUTEN_FREE]!,
@@ -29,7 +35,7 @@ export const fallbackProducts: Product[] = [
     name: 'Rice Tombrown',
     description: 'A satisfying, energy-packed blend made for a wholesome start to the day.',
     price: 12.5,
-    weight: '1kg & 2kg',
+    weight: getProductSizes(GrainType.RICE_COMBO).join(', '),
     stock: 85,
     grainType: GrainType.RICE_COMBO,
     image: productImages[GrainType.RICE_COMBO]!,
@@ -40,7 +46,7 @@ export const fallbackProducts: Product[] = [
     name: 'Maize Tombrown',
     description: 'A golden cereal blend with a comforting taste and nourishing ingredients.',
     price: 11.5,
-    weight: '1kg & 2kg',
+    weight: getProductSizes(GrainType.MAIZE_COMBO).join(', '),
     stock: 60,
     grainType: GrainType.MAIZE_COMBO,
     image: productImages[GrainType.MAIZE_COMBO]!,
@@ -66,5 +72,5 @@ export function normalizeProduct(product: Product): Product {
   const name = aliases[product.name.toLowerCase()] ?? product.name;
   const grainType = aliases[product.grainType.toLowerCase()] ?? product.grainType;
   // Apply the current catalogue presentation to older Firebase records too.
-  return { ...product, name, grainType, weight: '1kg & 2kg', image: productImages[grainType] ?? product.image ?? '/assets/logo.png' };
+  return { ...product, name, grainType, weight: getProductSizes(grainType).join(' & '), image: productImages[grainType] ?? product.image ?? '/assets/logo.png' };
 }
