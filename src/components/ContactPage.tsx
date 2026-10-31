@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Send, MessageSquare, Clock, AlertCircle, Loader2 } from 'lucide-react';
 
+const CONTACT_EMAIL = 'ripple3hallelujah.ventures@gmail.com';
+
 export default function ContactPage() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [isSending, setIsSending] = useState(false);
@@ -13,10 +15,9 @@ export default function ContactPage() {
     setIsSending(true);
     setError(null);
     try {
-      const recipient = '3ripplehallelujahventures@gmail.com';
       const subject = `Website enquiry from ${formState.name}`;
       const body = `Name: ${formState.name}\nEmail: ${formState.email}\n\n${formState.message}`;
-      window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       setIsSent(true);
       setFormState({ name: '', email: '', message: '' });
       setTimeout(() => setIsSent(false), 5000);
@@ -62,7 +63,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Email Us</p>
-                    <p className="text-xl font-medium text-slate-800 dark:text-slate-200">3ripplehallelujahventures@gmail.com</p>
+                    <p className="text-xl font-medium text-slate-800 dark:text-slate-200">{CONTACT_EMAIL}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-5">
