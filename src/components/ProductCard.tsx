@@ -16,7 +16,7 @@ export default function ProductCard({ product, onAddToCart, onQuickView }: Produ
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4 }}
-      className="card-premium group"
+      className="card-premium group flex h-full min-w-0 flex-col"
     >
       <div className="relative aspect-square mb-4 overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-800">
         <img 
@@ -24,22 +24,18 @@ export default function ProductCard({ product, onAddToCart, onQuickView }: Produ
           alt={product.name}
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            const fallback = product.grainType.toLowerCase().includes('rice')
-              ? '/assets/rice%20combo.png'
-              : product.grainType.toLowerCase().includes('maize')
-                ? '/assets/maize%20combo.png'
-                : '/assets/gluten%20free.png';
-            target.src = fallback;
             target.onerror = null;
+            target.src = '/assets/logo.png';
           }}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          loading="lazy"
+          className="w-full h-full object-contain p-8 transition-transform duration-500 group-hover:scale-105"
         />
         {product.isPopular && (
           <div className="absolute top-3 left-3">
             <span className="badge-mint shadow-sm">Best Seller</span>
           </div>
         )}
-        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/20 to-transparent opacity-100 lg:opacity-0 lg:group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity">
            <button 
              onClick={() => onQuickView(product)}
              className="w-full bg-white/90 backdrop-blur-sm text-slate-900 py-2 rounded-lg text-sm font-semibold shadow-xl border border-white/20 hover:bg-white transition-colors"
@@ -51,7 +47,7 @@ export default function ProductCard({ product, onAddToCart, onQuickView }: Produ
 
       <div className="flex flex-col gap-1">
         <p className="text-[10px] uppercase tracking-widest font-bold text-[var(--color-brand-blue)]">
-          {product.grainType}
+          {product.grainType.includes('Cassava') ? 'Cassava essentials' : 'Tombrown collection'}
         </p>
         <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 leading-tight">
           {product.name}
@@ -61,15 +57,21 @@ export default function ProductCard({ product, onAddToCart, onQuickView }: Produ
         </p>
       </div>
 
-      <div className="mt-5 flex items-center gap-3">
-        {product.weight && <span className="inline-flex shrink-0 items-center px-2.5 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-600 dark:text-slate-300">
-          {product.weight}
-        </span>}
+      <div className="mt-auto pt-6">
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-4 dark:border-slate-700">
+          <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Available sizes</span>
+          <div className="flex items-center gap-2" aria-label="Available in 1kg and 2kg">
+            {['1kg', '2kg'].map(size => (
+              <span key={size} className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-700 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200">{size}</span>
+            ))}
+          </div>
+        </div>
         <motion.button
           type="button"
           whileTap={{ scale: 0.98 }}
           onClick={() => onAddToCart(product.id)}
-          className="min-w-0 flex-1 min-h-10 bg-[var(--color-brand-blue)] text-white rounded-xl flex items-center justify-center gap-2 px-3 py-2.5 text-xs sm:text-sm font-bold hover:bg-blue-600 shadow-lg shadow-blue-100 dark:shadow-none transition-colors"
+          aria-label={`Enquire about ${product.name}`}
+          className="w-full min-h-11 bg-[var(--color-brand-blue)] text-white rounded-xl flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold hover:bg-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 transition-colors"
         >
           Enquire for price <MessageCircle size={16} />
         </motion.button>

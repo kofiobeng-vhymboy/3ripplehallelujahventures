@@ -357,14 +357,14 @@ export default function App() {
                       className="relative"
                     >
                       <img 
-                        src="/assets/rice combo.png" 
-                        alt="3Ripple Rice Tombrown"
+                        src="/assets/logo.png"
+                        alt="3Ripple Hallelujah Ventures"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
-                          target.src = "/assets/gluten%20free.png";
+                          target.src = "/assets/logo.png";
                           target.onerror = null;
                         }}
-                        className="rounded-[40px] shadow-2xl shadow-blue-200 w-full aspect-[4/3] object-cover"
+                        className="rounded-[40px] shadow-2xl shadow-blue-200 dark:shadow-none bg-white dark:bg-slate-800 p-8 w-full aspect-[4/3] object-contain"
                       />
                       <div className="absolute -bottom-8 -left-8 bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700 max-w-[240px]">
                         <div className="flex items-center gap-3 mb-2">

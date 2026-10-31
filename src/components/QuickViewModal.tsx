@@ -57,14 +57,10 @@ export default function QuickViewModal({
                   alt={product.name}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
-                    target.src = product.grainType.toLowerCase().includes('rice')
-                      ? '/assets/rice%20combo.png'
-                      : product.grainType.toLowerCase().includes('maize')
-                        ? '/assets/maize%20combo.png'
-                        : '/assets/gluten%20free.png';
                     target.onerror = null;
+                    target.src = '/assets/logo.png';
                   }}
-                  className="w-full h-full object-cover aspect-square md:aspect-auto md:h-[600px]"
+                  className="w-full h-full object-contain p-8 aspect-square md:aspect-auto md:h-[600px]"
                 />
                 {product.isPopular && (
                   <div className="absolute top-6 left-6">
@@ -83,7 +79,7 @@ export default function QuickViewModal({
                   <h2 className="text-3xl md:text-4xl font-bold text-slate-800 dark:text-white leading-tight mb-4">
                     {product.name}
                   </h2>
-                  <div className="flex items-center gap-4 mb-6">
+                  <div className="flex flex-wrap items-center gap-3 mb-6">
                     <span className="text-lg font-bold text-[var(--color-brand-blue)]">Price available on enquiry</span>
                     <span className="px-3 py-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                       {product.weight}

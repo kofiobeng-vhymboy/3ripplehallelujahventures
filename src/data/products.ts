@@ -10,10 +10,10 @@ export const fallbackProducts: Product[] = [
     name: 'Oats Tombrown (gluten free)',
     description: 'A delicious blend of grains, nuts, and seeds for nourishing everyday breakfasts.',
     price: 15,
-    weight: '600g jar',
+    weight: '1kg & 2kg',
     stock: 120,
     grainType: GrainType.GLUTEN_FREE,
-    image: '/assets/gluten%20free.png',
+    image: '/assets/logo.png',
     isPopular: true,
   },
   {
@@ -21,10 +21,10 @@ export const fallbackProducts: Product[] = [
     name: 'Rice Tombrown',
     description: 'A satisfying, energy-packed blend made for a wholesome start to the day.',
     price: 12.5,
-    weight: '600g jar',
+    weight: '1kg & 2kg',
     stock: 85,
     grainType: GrainType.RICE_COMBO,
-    image: '/assets/rice%20combo.png',
+    image: '/assets/logo.png',
     isPopular: true,
   },
   {
@@ -32,18 +32,18 @@ export const fallbackProducts: Product[] = [
     name: 'Maize Tombrown',
     description: 'A golden cereal blend with a comforting taste and nourishing ingredients.',
     price: 11.5,
-    weight: '600g jar',
+    weight: '1kg & 2kg',
     stock: 60,
     grainType: GrainType.MAIZE_COMBO,
-    image: '/assets/maize%20combo.png',
+    image: '/assets/logo.png',
     isPopular: false,
   },
 ];
 
-// Pack sizes and photographs for these products have not been supplied yet.
+// Use the brand logo until the updated product photographs are supplied.
 export const cassavaProducts: Product[] = [
-  { id: 'p4', name: GrainType.GARI, description: 'Cassava flakes for your everyday meals.', price: 0, weight: '', stock: 0, grainType: GrainType.GARI, image: '/assets/logo.png' },
-  { id: 'p5', name: GrainType.KONKONTE, description: 'Dried cassava flour for preparing konkonte.', price: 0, weight: '', stock: 0, grainType: GrainType.KONKONTE, image: '/assets/logo.png' },
+  { id: 'p4', name: GrainType.GARI, description: 'Cassava flakes for your everyday meals.', price: 0, weight: '1kg & 2kg', stock: 0, grainType: GrainType.GARI, image: '/assets/logo.png' },
+  { id: 'p5', name: GrainType.KONKONTE, description: 'Dried cassava flour for preparing konkonte.', price: 0, weight: '1kg & 2kg', stock: 0, grainType: GrainType.KONKONTE, image: '/assets/logo.png' },
 ];
 
 fallbackProducts.push(...cassavaProducts);
@@ -57,5 +57,6 @@ export function normalizeProduct(product: Product): Product {
   };
   const name = aliases[product.name.toLowerCase()] ?? product.name;
   const grainType = aliases[product.grainType.toLowerCase()] ?? product.grainType;
-  return { ...product, name, grainType };
+  // Apply the current catalogue presentation to older Firebase records too.
+  return { ...product, name, grainType, weight: '1kg & 2kg', image: '/assets/logo.png' };
 }

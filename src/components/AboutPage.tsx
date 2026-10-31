@@ -58,10 +58,9 @@ export default function AboutPage() {
                className="relative"
             >
                <img 
-                src="/assets/gluten%20free.png" 
-                alt="3Ripple Oats Tombrown jar" 
-                onError={(e) => { (e.target as HTMLImageElement).src = "/assets/rice%20combo.png"; }}
-                className="rounded-[40px] shadow-2xl"
+                src="/assets/logo.png"
+                alt="3Ripple Hallelujah Ventures"
+                className="w-full aspect-square object-contain p-8 bg-white dark:bg-slate-800 rounded-[40px] shadow-2xl"
                />
                <div className="absolute -bottom-6 -right-6 bg-[var(--color-brand-mint)] p-8 rounded-3xl shadow-xl max-w-[200px]">
                  <p className="text-slate-800 font-bold text-lg">Made with care</p>
