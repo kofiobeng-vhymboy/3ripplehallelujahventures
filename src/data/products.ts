@@ -1,5 +1,13 @@
 import { GrainType, Product } from '../types';
 
+const productImages: Partial<Record<GrainType, string>> = {
+  [GrainType.GLUTEN_FREE]: '/assets/oats-tombrown.jpg',
+  [GrainType.RICE_COMBO]: '/assets/rice-tombrown.jpg',
+  [GrainType.MAIZE_COMBO]: '/assets/maize-tombrown.jpg',
+  [GrainType.GARI]: '/assets/gari.jpg',
+  [GrainType.KONKONTE]: '/assets/konkonte.jpg',
+};
+
 /**
  * Public catalogue fallback used when the preview is deployed without the
  * Express API. Firebase products still merge in when the catalogue is online.
@@ -13,7 +21,7 @@ export const fallbackProducts: Product[] = [
     weight: '1kg & 2kg',
     stock: 120,
     grainType: GrainType.GLUTEN_FREE,
-    image: '/assets/logo.png',
+    image: productImages[GrainType.GLUTEN_FREE]!,
     isPopular: true,
   },
   {
@@ -24,7 +32,7 @@ export const fallbackProducts: Product[] = [
     weight: '1kg & 2kg',
     stock: 85,
     grainType: GrainType.RICE_COMBO,
-    image: '/assets/logo.png',
+    image: productImages[GrainType.RICE_COMBO]!,
     isPopular: true,
   },
   {
@@ -35,15 +43,15 @@ export const fallbackProducts: Product[] = [
     weight: '1kg & 2kg',
     stock: 60,
     grainType: GrainType.MAIZE_COMBO,
-    image: '/assets/logo.png',
+    image: productImages[GrainType.MAIZE_COMBO]!,
     isPopular: false,
   },
 ];
 
-// Use the brand logo until the updated product photographs are supplied.
+// Product photographs are shared by the local and hosted catalogues.
 export const cassavaProducts: Product[] = [
-  { id: 'p4', name: GrainType.GARI, description: 'Cassava flakes for your everyday meals.', price: 0, weight: '1kg & 2kg', stock: 0, grainType: GrainType.GARI, image: '/assets/logo.png' },
-  { id: 'p5', name: GrainType.KONKONTE, description: 'Dried cassava flour for preparing konkonte.', price: 0, weight: '1kg & 2kg', stock: 0, grainType: GrainType.KONKONTE, image: '/assets/logo.png' },
+  { id: 'p4', name: GrainType.GARI, description: 'Cassava flakes for your everyday meals.', price: 0, weight: '1kg & 2kg', stock: 0, grainType: GrainType.GARI, image: productImages[GrainType.GARI]! },
+  { id: 'p5', name: GrainType.KONKONTE, description: 'Dried cassava flour for preparing konkonte.', price: 0, weight: '1kg & 2kg', stock: 0, grainType: GrainType.KONKONTE, image: productImages[GrainType.KONKONTE]! },
 ];
 
 fallbackProducts.push(...cassavaProducts);
@@ -58,5 +66,5 @@ export function normalizeProduct(product: Product): Product {
   const name = aliases[product.name.toLowerCase()] ?? product.name;
   const grainType = aliases[product.grainType.toLowerCase()] ?? product.grainType;
   // Apply the current catalogue presentation to older Firebase records too.
-  return { ...product, name, grainType, weight: '1kg & 2kg', image: '/assets/logo.png' };
+  return { ...product, name, grainType, weight: '1kg & 2kg', image: productImages[grainType] ?? product.image ?? '/assets/logo.png' };
 }

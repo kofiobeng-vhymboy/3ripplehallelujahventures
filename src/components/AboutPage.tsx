@@ -58,8 +58,8 @@ export default function AboutPage() {
                className="relative"
             >
                <img 
-                src="/assets/logo.png"
-                alt="3Ripple Hallelujah Ventures"
+                src="/assets/maize-tombrown.jpg"
+                alt="3Ripple Maize Tombrown"
                 className="w-full aspect-square object-contain p-8 bg-white dark:bg-slate-800 rounded-[40px] shadow-2xl"
                />
                <div className="absolute -bottom-6 -right-6 bg-[var(--color-brand-mint)] p-8 rounded-3xl shadow-xl max-w-[200px]">
