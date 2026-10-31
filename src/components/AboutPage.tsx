@@ -4,7 +4,7 @@ import { Leaf, Users, ShieldCheck, Target, Award, Heart } from 'lucide-react';
 
 export default function AboutPage() {
   return (
-    <div className="pt-20">
+    <div>
       {/* Hero Section */}
       <section className="relative py-24 bg-[var(--color-brand-blue)] overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
@@ -33,7 +33,7 @@ export default function AboutPage() {
             >
               <h2 className="text-4xl font-bold text-slate-800 dark:text-slate-100 mb-8">Nourishing Generations</h2>
               <p className="text-lg text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
-                At 3ripple Hallelujah Ventures, we believe that breakfast isn't just a meal—it's the foundation of a purposeful day. Our journey began in a small kitchen with a simple goal: to make artisanal, healthy cereal mixes accessible to everyone.
+                At 3Ripple Hallelujah Ventures, we believe that breakfast isn't just a meal—it's the foundation of a purposeful day. Our journey began in a small kitchen with a simple goal: to make artisanal, healthy cereal mixes accessible to everyone.
               </p>
               <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
                 Today, we partner with sustainable farms across the region to source the finest non-GMO grains, ensuring that every spoonful you take is packed with the nutrients your body deserves.
@@ -59,7 +59,7 @@ export default function AboutPage() {
             >
                <img 
                 src="/assets/gluten%20free.png" 
-                alt="3ripple gluten-free cereal jar" 
+                alt="3Ripple Oats Tombrown jar" 
                 onError={(e) => { (e.target as HTMLImageElement).src = "/assets/rice%20combo.png"; }}
                 className="rounded-[40px] shadow-2xl"
                />
@@ -75,7 +75,7 @@ export default function AboutPage() {
       {/* Values */}
       <section className="py-24 bg-slate-50 dark:bg-slate-900/10 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-16">The 3ripple Values</h2>
+          <h2 className="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-16">The 3Ripple Values</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { icon: <Heart className="text-red-500" />, title: "Community First", desc: "We invest back into the communities that grow our grains." },

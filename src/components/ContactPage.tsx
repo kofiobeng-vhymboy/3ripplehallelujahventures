@@ -29,7 +29,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-20">
+    <div>
       {/* Header */}
       <section className="py-20 bg-slate-50 dark:bg-slate-900/30 border-b border-slate-100 dark:border-slate-800 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

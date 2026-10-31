@@ -46,7 +46,7 @@ export default function Navbar({ onSearch, cartCount, onOpenCart, user, onOpenAd
             <div className="w-12 h-12 flex items-center justify-center transition-transform group-hover:scale-110">
               <img 
                 src="/assets/logo.png" 
-                alt="3ripple Logo" 
+                alt="3Ripple Logo" 
                 className="w-full h-full object-contain rounded-full shadow-sm"
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = "/assets/logo.png";
@@ -54,7 +54,7 @@ export default function Navbar({ onSearch, cartCount, onOpenCart, user, onOpenAd
               />
             </div>
             <span className="hidden lg:block font-display font-bold text-xl tracking-tight text-slate-800 dark:text-slate-100">
-              3ripple <span className="text-[var(--color-brand-blue)]">Hallelujah</span> Ventures
+              3Ripple <span className="text-[var(--color-brand-blue)]">Hallelujah</span> Ventures
             </span>
           </a>
 

@@ -1,11 +1,13 @@
 /**
- * 3ripple Hallelujah Ventures - Core Types & Models
+ * 3Ripple Hallelujah Ventures - Core Types & Models
  */
 
 export enum GrainType {
-  GLUTEN_FREE = "Gluten-Free Cereal Mix",
-  RICE_COMBO = "Rice Combo Cereal Mix",
-  MAIZE_COMBO = "Maize Combo Cereal Mix",
+  GLUTEN_FREE = "Oats Tombrown (gluten free)",
+  RICE_COMBO = "Rice Tombrown",
+  MAIZE_COMBO = "Maize Tombrown",
+  GARI = "Gari (Cassava Flakes)",
+  KONKONTE = "Konkonte (Dried Cassava Flour)",
 }
 
 export enum OrderStatus {

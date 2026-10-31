@@ -7,7 +7,7 @@ import QuickViewModal from './components/QuickViewModal';
 import AboutPage from './components/AboutPage';
 import ContactPage from './components/ContactPage';
 import { Product, GrainType, OrderItem, UserProfile } from './types';
-import { fallbackProducts } from './data/products';
+import { fallbackProducts, cassavaProducts, normalizeProduct } from './data/products';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, Leaf, ShieldCheck, Zap, CheckCircle2 } from 'lucide-react';
 import { db, auth } from './lib/firebase';
@@ -120,15 +120,18 @@ export default function App() {
 
   useEffect(() => {
     // Combine local and remote products
-    const combined = [...localProducts];
+    const combined = localProducts.map(normalizeProduct);
     
     // Avoid duplicates if IDs overlap (unlikely in this setup but good practice)
     firestoreProducts.forEach(fp => {
       if (!combined.find(p => p.id === fp.id)) {
-        combined.push(fp);
+        combined.push(normalizeProduct(fp));
       }
     });
     
+    cassavaProducts.forEach(product => {
+      if (!combined.some(existing => existing.id === product.id || existing.name === product.name)) combined.push(product);
+    });
     setAllProducts(combined);
   }, [localProducts, firestoreProducts]);
 
@@ -332,14 +335,14 @@ export default function App() {
                       </h1>
                       <p className="text-lg text-slate-500 dark:text-slate-400 mb-10 leading-relaxed max-w-lg min-h-[3em]">
                         <TypingEffect 
-                          segments={[{ text: "Discover our premium, naturally sourced cereal mixes. From artisanal Gluten-Free blends to energizing Rice Combos, we bring wellness to your table." }]} 
+                          segments={[{ text: "Discover our Tombrown blends, Gari and Konkonte. From Oats Tombrown to Rice and Maize Tombrown, find something for your everyday table." }]} 
                           delay={2500} 
                           speed={20} 
                         />
                       </p>
                       <div className="flex flex-wrap gap-4">
                         <a href="#mixes" className="btn-primary px-8">
-                          Shop Cereal Mixes <ArrowRight size={20} />
+                          Explore Our Products <ArrowRight size={20} />
                         </a>
                         <a href="#about" className="btn-outline px-8">
                           Our Story
@@ -355,7 +358,7 @@ export default function App() {
                     >
                       <img 
                         src="/assets/rice combo.png" 
-                        alt="3ripple rice combo cereal"
+                        alt="3Ripple Rice Tombrown"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement;
                           target.src = "/assets/gluten%20free.png";
@@ -379,7 +382,7 @@ export default function App() {
               <section id="mixes" className="py-24 bg-slate-50 dark:bg-slate-900/30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="text-center mb-16">
-                    <h2 className="text-4xl mb-4 text-slate-800 dark:text-slate-100">Our Cereal Mixes</h2>
+                    <h2 className="text-4xl mb-4 text-slate-800 dark:text-slate-100">Our Products</h2>
                     {searchQuery && (
                       <p className="text-[var(--color-brand-blue)] font-medium mb-2">
                         Showing results for: "{searchQuery}"
@@ -422,7 +425,7 @@ export default function App() {
               <section className="py-32 bg-[var(--color-brand-blue)] relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]" />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-                  <h2 className="text-white text-5xl mb-6">Why Trust 3ripple Hallelujah?</h2>
+                  <h2 className="text-white text-5xl mb-6">Why Trust 3Ripple Hallelujah?</h2>
                   <p className="text-blue-100 mb-16 max-w-xl mx-auto">We stand by three fundamental pillars that ensure every bag of cereal we produce meets the highest standards.</p>
                   
                   <div className="grid md:grid-cols-3 gap-8">
@@ -484,14 +487,14 @@ export default function App() {
               <div className="flex items-center gap-2 mb-6">
                 <img 
                   src="/assets/logo.png" 
-                  alt="3ripple Logo" 
+                  alt="3Ripple Logo" 
                   className="w-10 h-10 object-contain rounded-full"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = "/assets/logo.png";
                   }}
                 />
                 <span className="font-display font-bold text-lg tracking-tight text-slate-800 dark:text-slate-100">
-                  3ripple <span className="text-[var(--color-brand-blue)]">Hallelujah</span>
+                  3Ripple <span className="text-[var(--color-brand-blue)]">Hallelujah</span>
                 </span>
               </div>
               <p className="text-slate-500 dark:text-slate-400 max-w-sm leading-relaxed mb-8">
@@ -529,7 +532,7 @@ export default function App() {
           
           <div className="pt-8 border-t border-slate-50 dark:border-slate-800 text-center">
             <p className="text-slate-400 dark:text-slate-600 text-xs">
-              © 2026 3ripple Hallelujah Ventures. All rights reserved. Made with health in mind.
+              © 2026 3Ripple Hallelujah Ventures. All rights reserved. Made with health in mind.
             </p>
           </div>
         </div>

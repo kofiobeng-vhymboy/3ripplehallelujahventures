@@ -94,7 +94,7 @@ export default function AuthModal({ isOpen, onClose, onLogin }: AuthModalProps) 
                 <div className="w-14 h-14 flex items-center justify-center">
                   <img 
                     src="/assets/logo.png" 
-                    alt="3ripple Logo" 
+                    alt="3Ripple Logo" 
                     className="w-full h-full object-contain rounded-2xl"
                   />
                 </div>

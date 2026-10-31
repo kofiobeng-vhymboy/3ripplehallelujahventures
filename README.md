@@ -1,4 +1,4 @@
-# 3ripple Hallelujah Ventures - Web Application
+# 3Ripple Hallelujah Ventures - Web Application
 
 This is a polished, full-stack React application built with Vite, Tailwind CSS, and Express.
 

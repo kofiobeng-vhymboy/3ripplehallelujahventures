@@ -46,7 +46,7 @@ export default function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, o
       }
     }
 
-    let message = `*New Order from 3ripple Hallelujah Ventures*\n\n`;
+    let message = `*Product enquiry for 3Ripple Hallelujah Ventures*\n\n`;
     if (user) {
       message += `*Customer:* ${user.firstName} ${user.lastName}\n`;
       message += `*Phone:* ${user.phone}\n\n`;
