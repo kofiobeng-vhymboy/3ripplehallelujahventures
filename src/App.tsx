@@ -263,7 +263,7 @@ export default function App() {
   const totalCartItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-[var(--color-brand-white)] dark:bg-[#0f172a] selection:bg-[var(--color-brand-mint)] selection:text-[var(--color-brand-blue)] transition-colors duration-300">
+    <div className="min-h-dvh bg-[var(--color-brand-white)] dark:bg-[#0f172a] selection:bg-[var(--color-brand-mint)] selection:text-[var(--color-brand-blue)] transition-colors duration-300">
       <Navbar 
         searchQuery={searchQuery}
         onSearch={query => {
@@ -321,7 +321,7 @@ export default function App() {
             initial={{ opacity: 0, y: 50, x: '-50%' }}
             animate={{ opacity: 1, y: 0, x: '-50%' }}
             exit={{ opacity: 0, y: 20, x: '-50%' }}
-            className="fixed bottom-10 left-1/2 z-[100] bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-white/10"
+            className="enquiry-toast fixed bottom-10 left-1/2 z-[100] bg-slate-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-white/10"
           >
             <CheckCircle2 className="text-[var(--color-brand-mint)]" size={20} />
             <span className="font-medium">{showToast} added to cart</span>
@@ -396,7 +396,7 @@ export default function App() {
                         }}
                         className="rounded-[40px] shadow-2xl shadow-blue-200 dark:shadow-none bg-white dark:bg-slate-800 p-8 w-full aspect-[4/3] object-contain"
                       />
-                      <div className="absolute -bottom-8 -left-8 bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700 max-w-[240px]">
+                      <div className="hero-callout absolute -bottom-8 -left-8 bg-white dark:bg-slate-800 p-6 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700 max-w-[240px]">
                         <div className="flex items-center gap-3 mb-2">
                           <div className="w-8 h-8 bg-[var(--color-brand-mint)] rounded-lg" />
                           <span className="font-bold text-slate-800 dark:text-slate-100">Made for your breakfast</span>
@@ -493,7 +493,7 @@ export default function App() {
       {/* Enhanced Footer */}
       <footer className="py-20 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-[#0f172a] transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-12 mb-16">
+          <div className="site-footer-grid grid md:grid-cols-4 gap-12 mb-16">
             <div className="col-span-2">
               <div className="flex items-center gap-2 mb-6">
                 <img 

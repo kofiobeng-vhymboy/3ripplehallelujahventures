@@ -38,7 +38,7 @@ export default function AboutPage() {
               <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
                 Today, we partner with sustainable farms across the region to source the finest non-GMO grains, ensuring that every spoonful you take is packed with the nutrients your body deserves.
               </p>
-              <div className="grid grid-cols-2 gap-6">
+              <div className="mission-grid grid grid-cols-2 gap-6">
                 <div className="p-6 bg-slate-50 dark:bg-slate-800 rounded-3xl">
                   <Target className="text-[var(--color-brand-blue)] mb-3" size={24} />
                   <h3 className="font-bold text-slate-800 dark:text-slate-100">Our Mission</h3>
@@ -62,7 +62,7 @@ export default function AboutPage() {
                 alt="3Ripple Maize Tombrown"
                 className="w-full aspect-square object-contain p-8 bg-white dark:bg-slate-800 rounded-[40px] shadow-2xl"
                />
-               <div className="absolute -bottom-6 -right-6 bg-[var(--color-brand-mint)] p-8 rounded-3xl shadow-xl max-w-[200px]">
+               <div className="story-callout absolute -bottom-6 -right-6 bg-[var(--color-brand-mint)] p-8 rounded-3xl shadow-xl max-w-[200px]">
                  <p className="text-slate-800 font-bold text-lg">Made with care</p>
                  <p className="text-xs text-slate-700">Cereal blends created for nourishing everyday breakfasts.</p>
                </div>

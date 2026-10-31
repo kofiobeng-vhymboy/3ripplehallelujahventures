@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Send, MessageSquare, Clock, AlertCircle, Loader2 } from 'lucide-react';
 
+const CONTACT_EMAIL = 'ripple3hallelujah.ventures@gmail.com';
+
 export default function ContactPage() {
   const [formState, setFormState] = useState({ name: '', email: '', message: '' });
   const [isSending, setIsSending] = useState(false);
@@ -13,10 +15,9 @@ export default function ContactPage() {
     setIsSending(true);
     setError(null);
     try {
-      const recipient = '3ripplehallelujahventures@gmail.com';
       const subject = `Website enquiry from ${formState.name}`;
       const body = `Name: ${formState.name}\nEmail: ${formState.email}\n\n${formState.message}`;
-      window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       setIsSent(true);
       setFormState({ name: '', email: '', message: '' });
       setTimeout(() => setIsSent(false), 5000);
@@ -62,7 +63,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">Email Us</p>
-                    <p className="text-xl font-medium text-slate-800 dark:text-slate-200">3ripplehallelujahventures@gmail.com</p>
+                    <p className="text-xl font-medium text-slate-800 dark:text-slate-200">{CONTACT_EMAIL}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-5">
@@ -88,7 +89,7 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              <div className="mt-12 p-8 bg-slate-50 dark:bg-slate-800/50 rounded-[40px] border border-slate-100 dark:border-slate-800">
+              <div className="contact-hours mt-12 p-8 bg-slate-50 dark:bg-slate-800/50 rounded-[40px] border border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-3 mb-4">
                   <Clock size={20} className="text-[var(--color-brand-blue)]" />
                   <h3 className="font-bold text-slate-800 dark:text-slate-100">Support Hours</h3>
@@ -114,7 +115,7 @@ export default function ContactPage() {
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white dark:bg-[#1e293b] p-10 rounded-[40px] shadow-2xl shadow-slate-100 dark:shadow-none border border-slate-100 dark:border-slate-800"
+              className="contact-form bg-white dark:bg-[#1e293b] p-10 rounded-[40px] shadow-2xl shadow-slate-100 dark:shadow-none border border-slate-100 dark:border-slate-800"
             >
               <div className="flex items-center gap-3 mb-8">
                 <MessageSquare className="text-[var(--color-brand-blue)]" size={24} />
@@ -128,8 +129,9 @@ export default function ContactPage() {
                   </div>
                 )}
                 <div>
-                  <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 block">Your Name</label>
+                  <label htmlFor="contact-name" className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 block">Your Name</label>
                   <input 
+                    id="contact-name"
                     required
                     disabled={isSending}
                     type="text" 
@@ -140,8 +142,9 @@ export default function ContactPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 block">Email Address</label>
+                  <label htmlFor="contact-email" className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 block">Email Address</label>
                   <input 
+                    id="contact-email"
                     required
                     disabled={isSending}
                     type="email" 
@@ -152,8 +155,9 @@ export default function ContactPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 block">Message</label>
+                  <label htmlFor="contact-message" className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-2 block">Message</label>
                   <textarea 
+                    id="contact-message"
                     required
                     disabled={isSending}
                     rows={4}

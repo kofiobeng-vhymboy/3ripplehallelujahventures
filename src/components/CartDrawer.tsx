@@ -81,10 +81,10 @@ export default function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, o
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-y-0 right-0 w-full max-w-md bg-white dark:bg-[#0f172a] shadow-2xl z-[101] flex flex-col transition-colors duration-300"
+            className="enquiry-drawer fixed inset-y-0 right-0 w-full max-w-md bg-white dark:bg-[#0f172a] shadow-2xl z-[101] flex flex-col transition-colors duration-300"
           >
             {/* Header */}
-            <div className="p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-[#0f172a] sticky top-0 z-10 transition-colors">
+            <div className="cart-header p-6 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-white dark:bg-[#0f172a] sticky top-0 z-10 transition-colors">
               <div className="flex items-center gap-2">
                 <ShoppingBag className="text-[var(--color-brand-blue)]" size={24} />
                 <h2 className="text-xl font-bold dark:text-slate-100">Your Mix Collection</h2>
@@ -94,6 +94,7 @@ export default function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, o
               </div>
               <button 
                 onClick={onClose}
+                aria-label="Close enquiry cart"
                 className="p-2 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-full transition-colors text-slate-500 dark:text-slate-400"
               >
                 <X size={24} />
@@ -101,7 +102,7 @@ export default function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, o
             </div>
 
             {/* Items List */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6">
+            <div className="cart-items flex-1 overflow-y-auto p-6 space-y-6">
               {items.length === 0 ? (
                 <div className="h-full flex flex-col items-center justify-center text-center">
                   <div className="w-20 h-20 bg-slate-50 dark:bg-slate-900 rounded-full flex items-center justify-center mb-4">
@@ -126,14 +127,15 @@ export default function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, o
                          <Leaf className="text-[var(--color-brand-blue)]/40" size={24} />
                       </div>
                     </div>
-                    <div className="flex-1">
-                      <h4 className="font-bold text-slate-800 dark:text-slate-100 line-clamp-1">{item.productName}</h4>
+                    <div className="cart-item-content flex-1">
+                      <h4 className="cart-item-name font-bold text-slate-800 dark:text-slate-100 line-clamp-1">{item.productName}</h4>
                       <p className="text-xs font-semibold text-[var(--color-brand-blue)] mt-0.5">Price and availability on enquiry</p>
                       
-                      <div className="flex items-center justify-between mt-3">
+                      <div className="cart-item-actions flex items-center justify-between mt-3">
                         <div className="flex items-center gap-3 bg-slate-50 dark:bg-[#1e293b] rounded-lg p-1 border border-slate-100 dark:border-slate-700">
                           <button 
                             onClick={() => onUpdateQuantity(item.productId, -1)}
+                            aria-label={`Decrease quantity of ${item.productName}`}
                             className="p-1 hover:bg-white dark:hover:bg-slate-700 rounded shadow-sm transition-all text-slate-600 dark:text-slate-300"
                           >
                             <Minus size={14} />
@@ -141,6 +143,7 @@ export default function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, o
                           <span className="text-xs font-bold w-4 text-center dark:text-slate-100">{item.quantity}</span>
                           <button 
                             onClick={() => onUpdateQuantity(item.productId, 1)}
+                            aria-label={`Increase quantity of ${item.productName}`}
                             className="p-1 hover:bg-white dark:hover:bg-slate-700 rounded shadow-sm transition-all text-slate-600 dark:text-slate-300"
                           >
                             <Plus size={14} />
@@ -148,6 +151,7 @@ export default function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, o
                         </div>
                         <button 
                           onClick={() => onRemoveItem(item.productId)}
+                          aria-label={`Remove ${item.productName}`}
                           className="p-2 text-slate-300 dark:text-slate-600 hover:text-red-500 transition-colors"
                         >
                           <Trash2 size={16} />
@@ -161,7 +165,7 @@ export default function CartDrawer({ isOpen, onClose, items, onUpdateQuantity, o
 
             {/* Footer / Checkout */}
             {items.length > 0 && (
-              <div className="p-6 bg-slate-50 dark:bg-[#1e293b] border-t border-slate-100 dark:border-slate-800 transition-colors">
+              <div className="cart-footer p-6 bg-slate-50 dark:bg-[#1e293b] border-t border-slate-100 dark:border-slate-800 transition-colors">
                 <div className="mb-6 rounded-2xl bg-white/70 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-700 p-4">
                   <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Ready to ask about your selection?</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">We’ll reply with current pricing, availability, and delivery details.</p>
