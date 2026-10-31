@@ -36,7 +36,7 @@ export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, u
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 dark:bg-slate-900/80 dark:border-slate-800 transition-colors duration-300">
+    <nav className="site-nav sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 dark:bg-slate-900/80 dark:border-slate-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 sm:h-20">
           {/* Logo */}
@@ -89,6 +89,7 @@ export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, u
             )}
             <button 
               onClick={onToggleDarkMode}
+              aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
               className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all flex items-center justify-center rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800"
               title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
@@ -96,6 +97,7 @@ export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, u
             </button>
             <button 
               onClick={() => setIsSearchOpen(true)}
+              aria-label="Search products"
               className="p-2 text-slate-400 hover:text-slate-600 hidden sm:flex transition-colors"
             >
               <Search size={20} />
@@ -104,6 +106,7 @@ export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, u
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onOpenCart}
+              aria-label="Open enquiry cart"
               className="relative p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
             >
               <ShoppingCart size={22} />
@@ -119,6 +122,9 @@ export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, u
               )}
             </motion.button>
             <button 
+              aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
               className="lg:hidden p-2 text-slate-400 hover:text-slate-600 transition-colors"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
@@ -140,6 +146,7 @@ export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, u
             <div className="max-w-3xl mx-auto w-full flex items-center gap-4">
               <Search className="text-slate-400" size={24} />
               <input 
+                aria-label="Search products"
                 autoFocus
                 type="text"
                 value={searchQuery}
@@ -149,6 +156,7 @@ export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, u
               />
               <button 
                 onClick={closeSearch}
+                aria-label="Close search"
                 className="p-2 text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 transition-colors"
               >
                 <X size={24} />
@@ -165,6 +173,7 @@ export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, u
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
+            id="mobile-navigation"
             className="lg:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-xl"
           >
             <div className="px-4 py-6 space-y-4">
@@ -180,6 +189,7 @@ export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, u
               <div className="relative mb-6">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={18} />
                 <input 
+                  aria-label="Search products"
                   type="text"
                   value={searchQuery}
                   onChange={handleSearchChange}

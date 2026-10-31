@@ -39,10 +39,11 @@ export default function QuickViewModal({
             initial={{ opacity: 0, scale: 0.9, x: '-50%', y: '-45%' }}
             animate={{ opacity: 1, scale: 1, x: '-50%', y: '-50%' }}
             exit={{ opacity: 0, scale: 0.9, x: '-50%', y: '-45%' }}
-            className="fixed left-1/2 top-1/2 w-[95%] max-w-4xl bg-white dark:bg-[#0f172a] rounded-[32px] md:rounded-[40px] shadow-2xl z-[201] overflow-hidden max-h-[90vh] flex flex-col transition-colors duration-300"
+            className="quick-view-panel fixed left-1/2 top-1/2 w-[95%] max-w-4xl bg-white dark:bg-[#0f172a] rounded-[32px] md:rounded-[40px] shadow-2xl z-[201] overflow-hidden max-h-[90vh] flex flex-col transition-colors duration-300"
           >
             <button 
               onClick={onClose}
+              aria-label="Close product details"
               className="absolute top-4 right-4 md:top-6 md:right-6 p-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-full text-slate-900 dark:text-slate-100 shadow-lg hover:bg-white dark:hover:bg-slate-700 transition-all z-30"
             >
               <X size={24} />
@@ -70,7 +71,7 @@ export default function QuickViewModal({
               </div>
 
               {/* Product Info */}
-              <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center relative dark:bg-[#0f172a] transition-colors">
+              <div className="quick-view-content w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-center relative dark:bg-[#0f172a] transition-colors">
 
                 <div className="mb-8">
                   <p className="text-xs uppercase tracking-widest font-bold text-[var(--color-brand-blue)] mb-2">
@@ -106,7 +107,7 @@ export default function QuickViewModal({
                   </div>
                 )}
 
-                <div className="grid grid-cols-3 gap-4 mb-10">
+                <div className="quick-view-highlights grid grid-cols-3 gap-4 mb-10">
                   <div className="text-center p-4 rounded-2xl bg-slate-50 dark:bg-[#1e293b] border border-slate-100 dark:border-slate-800">
                     <Leaf className="mx-auto mb-2 text-green-500" size={20} />
                     <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase">Natural</p>

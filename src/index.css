@@ -85,3 +85,118 @@
     @apply px-3 py-1 bg-[var(--color-brand-mint)] text-slate-800 text-xs font-bold uppercase tracking-wider rounded-full;
   }
 }
+
+/* The desktop composition starts at lg (64rem). Below it, intrinsic minimums
+   must yield to the available width, including when text is enlarged. */
+@media (width < 64rem) {
+  main, footer {
+    overflow-wrap: anywhere;
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+
+  :where(main, footer) :where(.grid, .flex) > * {
+    min-width: 0;
+  }
+
+  button, a[href] {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  button svg { flex-shrink: 0; }
+
+  input:not([type="checkbox"]):not([type="radio"]), textarea, select {
+    min-width: 0;
+    max-width: 100%;
+    font-size: 1rem;
+  }
+
+  .site-nav {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .site-nav > div:first-child {
+    padding-left: max(1rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1rem, env(safe-area-inset-right, 0px));
+  }
+
+  .site-nav input { min-width: 0; }
+
+  #mobile-navigation {
+    max-height: calc(100dvh - 5rem - 1px - env(safe-area-inset-top, 0px));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .site-footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  footer a[href] {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+  }
+
+  .hero-callout {
+    position: relative;
+    left: 0;
+    bottom: auto;
+    margin-top: -3rem;
+    max-width: min(100%, 15rem);
+  }
+  .story-callout { right: 0; }
+
+  .mission-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  }
+
+  .contact-form { padding: clamp(1rem, 5vw, 2.5rem); }
+  .contact-hours { padding: clamp(1rem, 4vw, 2rem); }
+  .contact-hours li { flex-wrap: wrap; gap: 0.5rem 1rem; }
+
+  .quick-view-panel {
+    top: 50dvh;
+    max-height: 90dvh;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    overflow-wrap: anywhere;
+  }
+
+  .quick-view-panel > .flex-1 { min-height: 0; }
+  .quick-view-content { min-width: 0; padding: clamp(1rem, 5vw, 2rem); }
+  .quick-view-highlights {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 5rem), 1fr));
+  }
+
+  .enquiry-drawer {
+    height: 100dvh;
+    max-width: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    overflow-wrap: anywhere;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .cart-header { gap: 0.75rem; flex-shrink: 0; padding: 1rem; }
+  .cart-header > div { flex: 1; min-width: 0; }
+  .cart-header h2 { font-size: clamp(1rem, 3vw, 1.25rem); }
+  .cart-header > button { flex-shrink: 0; }
+  .cart-items { flex: 1 0 auto; overflow: visible; padding: 1rem; }
+  .cart-item-content { min-width: 0; }
+  .cart-item-name { -webkit-line-clamp: unset; overflow: visible; }
+  .cart-item-actions { flex-wrap: wrap; gap: 0.5rem; }
+  .cart-footer { flex-shrink: 0; padding: 1rem; }
+
+  .enquiry-toast {
+    width: max-content;
+    max-width: calc(100% - 2rem);
+    bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+    padding: 1rem;
+    overflow-wrap: anywhere;
+  }
+  .enquiry-toast > span { min-width: 0; }
+}
