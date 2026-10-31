@@ -3,6 +3,7 @@ import { ShoppingCart, Menu, Search, X, Package, Sun, Moon } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react';
 
 interface NavbarProps {
+  searchQuery: string;
   onSearch: (query: string) => void;
   cartCount: number;
   onOpenCart: () => void;
@@ -13,26 +14,23 @@ interface NavbarProps {
   onToggleDarkMode: () => void;
 }
 
-export default function Navbar({ onSearch, cartCount, onOpenCart, user, onOpenAdmin, activeHash, isDarkMode, onToggleDarkMode }: NavbarProps) {
+export default function Navbar({ searchQuery, onSearch, cartCount, onOpenCart, user, onOpenAdmin, activeHash, isDarkMode, onToggleDarkMode }: NavbarProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setSearchValue(value);
     onSearch(value);
   };
 
   const closeSearch = () => {
     setIsSearchOpen(false);
-    setSearchValue("");
     onSearch("");
   };
 
   const navLinks = [
     { name: "Home", href: "#home" },
-    { name: "Products", href: "#mixes" },
+    { name: "Products", href: "#products" },
     { name: "About Us", href: "#about" },
     { name: "Contact", href: "#contact" },
   ];
@@ -66,6 +64,7 @@ export default function Navbar({ onSearch, cartCount, onOpenCart, user, onOpenAd
                 <a 
                   key={link.name}
                   href={link.href} 
+                  aria-current={isActive ? 'page' : undefined}
                   className={`px-4 py-2 text-sm font-bold rounded-xl transition-all ${
                     isActive 
                       ? 'bg-[var(--color-brand-blue)] text-white shadow-lg shadow-blue-200' 
@@ -143,7 +142,7 @@ export default function Navbar({ onSearch, cartCount, onOpenCart, user, onOpenAd
               <input 
                 autoFocus
                 type="text"
-                value={searchValue}
+                value={searchQuery}
                 onChange={handleSearchChange}
                 placeholder="Search for grain mixes, ingredients..."
                 className="flex-1 text-xl font-medium text-slate-800 dark:text-slate-100 dark:placeholder:text-slate-600 bg-transparent placeholder:text-slate-300 focus:outline-none"
@@ -182,7 +181,7 @@ export default function Navbar({ onSearch, cartCount, onOpenCart, user, onOpenAd
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-600" size={18} />
                 <input 
                   type="text"
-                  value={searchValue}
+                  value={searchQuery}
                   onChange={handleSearchChange}
                   placeholder="Search mixtures..."
                   className="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl text-sm dark:text-slate-100 focus:outline-none"
@@ -208,6 +207,7 @@ export default function Navbar({ onSearch, cartCount, onOpenCart, user, onOpenAd
                   <a 
                     key={link.name}
                     href={link.href}
+                    aria-current={isActive ? 'page' : undefined}
                     onClick={() => setIsMenuOpen(false)}
                     className={`block text-lg font-bold transition-all py-3 px-4 rounded-xl ${
                       isActive 

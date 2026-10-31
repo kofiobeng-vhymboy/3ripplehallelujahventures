@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
-import ProductCard from './components/ProductCard';
+import ProductsPage, { ProductGrid } from './components/ProductsPage';
 import CartDrawer from './components/CartDrawer';
 import AdminPanel from './components/AdminPanel';
 import QuickViewModal from './components/QuickViewModal';
@@ -29,7 +29,7 @@ export default function App() {
   const [showToast, setShowToast] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [currentView, setCurrentView] = useState<'home' | 'about' | 'contact'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'products' | 'about' | 'contact'>('home');
   const [currentHash, setCurrentHash] = useState(window.location.hash || '#home');
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('theme');
@@ -48,18 +48,44 @@ export default function App() {
   }, [isDarkMode]);
 
   useEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = 'manual';
+    let scrollFrame = 0;
     const handleHashChange = () => {
-      const hash = window.location.hash;
+      // Preserve old shared #mixes URLs as links to the new catalogue page.
+      const hash = window.location.hash === '#mixes' ? '#products' : window.location.hash;
       setCurrentHash(hash || '#home');
       if (hash === '#about') setCurrentView('about');
       else if (hash === '#contact') setCurrentView('contact');
+      else if (hash === '#products') setCurrentView('products');
       else setCurrentView('home');
+      if (hash !== '#products') setSearchQuery('');
+      window.cancelAnimationFrame(scrollFrame);
+      scrollFrame = window.requestAnimationFrame(() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' }));
+    };
+    const handlePageLink = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[href^="#"]') : null;
+      const hash = link?.getAttribute('href');
+      if (!hash || !['#home', '#products', '#mixes', '#about', '#contact'].includes(hash) || link?.target === '_blank') return;
+      event.preventDefault();
+      if (window.location.hash !== hash) window.history.pushState(null, '', hash);
+      // Also reset scroll when someone clicks the page they are already on.
+      handleHashChange();
     };
 
     window.addEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handleHashChange);
+    document.addEventListener('click', handlePageLink);
     handleHashChange(); // Initial check
 
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('popstate', handleHashChange);
+      document.removeEventListener('click', handlePageLink);
+      window.cancelAnimationFrame(scrollFrame);
+      window.history.scrollRestoration = previousScrollRestoration;
+    };
   }, []);
 
   useEffect(() => {
@@ -239,7 +265,11 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[var(--color-brand-white)] dark:bg-[#0f172a] selection:bg-[var(--color-brand-mint)] selection:text-[var(--color-brand-blue)] transition-colors duration-300">
       <Navbar 
-        onSearch={setSearchQuery} 
+        searchQuery={searchQuery}
+        onSearch={query => {
+          setSearchQuery(query);
+          if (query.trim() && currentView !== 'products') window.location.hash = '#products';
+        }}
         cartCount={totalCartItems} 
         onOpenCart={() => setIsCartOpen(true)} 
         user={currentUser}
@@ -300,7 +330,7 @@ export default function App() {
       </AnimatePresence>
 
       <main className="dark:bg-[var(--color-dark-bg)] transition-colors duration-300">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' })}>
           {currentView === 'home' && (
             <motion.div
               key="home"
@@ -310,7 +340,7 @@ export default function App() {
               transition={{ duration: 0.3 }}
             >
               {/* Hero Section */}
-              <section id="home" className="relative pt-20 pb-32 overflow-hidden bg-white dark:bg-[var(--color-dark-bg)] bg-cover bg-center" style={{ backgroundImage: `${isDarkMode ? "linear-gradient(90deg, rgba(15,23,42,0.98) 0%, rgba(15,23,42,0.9) 48%, rgba(15,23,42,0.35) 100%)" : "linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.9) 45%, rgba(255,255,255,0.35) 100%)"}, url('/assets/background.jpg')` }}>
+              <section className="relative pt-8 sm:pt-12 pb-24 sm:pb-32 overflow-hidden bg-white dark:bg-[var(--color-dark-bg)] bg-cover bg-center" style={{ backgroundImage: `${isDarkMode ? "linear-gradient(90deg, rgba(15,23,42,0.98) 0%, rgba(15,23,42,0.9) 48%, rgba(15,23,42,0.35) 100%)" : "linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.9) 45%, rgba(255,255,255,0.35) 100%)"}, url('/assets/background.jpg')` }}>
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-50/50 dark:bg-blue-900/10 -z-10 rounded-l-[120px]" />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -341,7 +371,7 @@ export default function App() {
                         />
                       </p>
                       <div className="flex flex-wrap gap-4">
-                        <a href="#mixes" className="btn-primary px-8">
+                        <a href="#products" className="btn-primary px-8">
                           Explore Our Products <ArrowRight size={20} />
                         </a>
                         <a href="#about" className="btn-outline px-8">
@@ -379,45 +409,20 @@ export default function App() {
               </section>
 
               {/* Products Section */}
-              <section id="mixes" className="py-24 bg-slate-50 dark:bg-slate-900/30">
+              <section className="py-16 sm:py-24 bg-slate-50 dark:bg-slate-900/30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                   <div className="text-center mb-16">
-                    <h2 className="text-4xl mb-4 text-slate-800 dark:text-slate-100">Our Products</h2>
-                    {searchQuery && (
-                      <p className="text-[var(--color-brand-blue)] font-medium mb-2">
-                        Showing results for: "{searchQuery}"
-                      </p>
-                    )}
+                    <h2 className="text-3xl sm:text-4xl mb-4 text-slate-800 dark:text-slate-100">Featured Products</h2>
                     <p className="text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
                       Explore our handcrafted blends designed for peak nutrition and incredible taste.
                     </p>
                     <div className="w-24 h-1 bg-[var(--color-brand-blue)] mx-auto mt-6 rounded-full" />
                   </div>
 
-                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-                    {!loading ? (
-                      filteredProducts.length > 0 ? (
-                        filteredProducts.map((p) => (
-                          <ProductCard 
-                            key={p.id} 
-                            product={p} 
-                            onAddToCart={handleAddToCart} 
-                            onQuickView={handleQuickView}
-                          />
-                        ))
-                      ) : (
-                        <div className="col-span-full py-20 text-center">
-                          <p className="text-slate-400 dark:text-slate-500 text-lg">No products found matching your search.</p>
-                        </div>
-                      )
-                    ) : (
-                      [1,2,3].map(i => (
-                        <div key={i} className="card-premium h-96 animate-pulse bg-slate-100" />
-                      ))
-                    )}
+                  <ProductGrid products={allProducts.slice(0, 3)} loading={loading} onAddToCart={handleAddToCart} onQuickView={handleQuickView} />
+                  <div className="mt-10 flex justify-center">
+                    <a href="#products" className="btn-primary">View all products <ArrowRight size={18} /></a>
                   </div>
-
-                  {/* Utility Grid */}
                 </div>
               </section>
 
@@ -448,6 +453,12 @@ export default function App() {
                   </div>
                 </div>
               </section>
+            </motion.div>
+          )}
+
+          {currentView === 'products' && (
+            <motion.div key="products" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.3 }}>
+              <ProductsPage products={filteredProducts} loading={loading} searchQuery={searchQuery} onSearch={setSearchQuery} onAddToCart={handleAddToCart} onQuickView={handleQuickView} />
             </motion.div>
           )}
 
@@ -513,7 +524,7 @@ export default function App() {
               <h4 className="font-bold text-slate-800 dark:text-slate-100 mb-6 uppercase text-xs tracking-widest">Navigation</h4>
               <ul className="space-y-4">
                 <li><a href="#home" className="text-slate-500 dark:text-slate-400 hover:text-[var(--color-brand-blue)] transition-colors text-sm">Home</a></li>
-                <li><a href="#mixes" className="text-slate-500 dark:text-slate-400 hover:text-[var(--color-brand-blue)] transition-colors text-sm">Products</a></li>
+                <li><a href="#products" className="text-slate-500 dark:text-slate-400 hover:text-[var(--color-brand-blue)] transition-colors text-sm">Products</a></li>
                 <li><a href="#about" className="text-slate-500 dark:text-slate-400 hover:text-[var(--color-brand-blue)] transition-colors text-sm">About Us</a></li>
                 <li><a href="#contact" className="text-slate-500 dark:text-slate-400 hover:text-[var(--color-brand-blue)] transition-colors text-sm">Contact Support</a></li>
               </ul>
